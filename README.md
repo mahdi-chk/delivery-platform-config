@@ -1,33 +1,136 @@
-# Delivery Platform - Configuration Repository
+# ⚙️ Delivery Platform Config
 
-Ce dépôt contient toutes les configurations centralisées pour la plateforme de livraison.
+## 📌 Description
 
-## Structure
+Le dépôt **delivery-platform-config** contient la **configuration centralisée** de tous les microservices du projet **Delivery Platform**.
+
+Il est utilisé avec **Spring Cloud Config Server** afin de :
+
+* Centraliser les fichiers de configuration
+* Éviter la duplication des paramètres
+* Faciliter la maintenance et les mises à jour
+* Gérer les configurations par service
+
+---
+
+## 🧱 Rôle dans l’Architecture
+
+Ce dépôt est consommé par un **Config Server** qui fournit dynamiquement les paramètres aux microservices.
+
 ```
-config/
-├── application.properties              # Configuration commune
+Microservice ───► Config Server ───► delivery-platform-config
+```
+
+Chaque microservice charge sa configuration au démarrage depuis ce dépôt.
+
+---
+
+## 📂 Structure du Dépôt
+
+```
+delivery-platform-config/
+│
+├── application.properties
 ├── eureka-server.properties
 ├── gateway-server.properties
+├── delivery-api.properties
 ├── restaurant-service.properties
 ├── commande-livraison-service.properties
-└── delivery-api.properties
+└── README.md
 ```
 
-## Format
+---
 
-Toutes les configurations utilisent le format `.properties` au lieu de `.yml`.
+## 📄 Description des Fichiers
 
-## Modification
+### 🔹 `application.properties`
 
-1. Modifier le fichier de configuration
-2. Commit et push sur GitHub
-3. Les services récupèrent automatiquement les nouvelles configurations
+Configuration globale partagée entre tous les microservices (ex : ports communs, logs, paramètres généraux).
 
-## Variable obligatoire
+### 🔹 `eureka-server.properties`
 
-**commande-livraison-service.properties** contient la variable requise:
+Configuration spécifique au **Eureka Server** :
+
+* Port du serveur
+* Nom de l’application
+* Paramètres de registre de services
+
+### 🔹 `gateway-server.properties`
+
+Configuration de l’**API Gateway** :
+
+* Routage des requêtes
+* Découverte des services
+* Filtres
+
+### 🔹 `delivery-api.properties`
+
+Configuration du service **delivery-api** :
+
+* Port
+* Connexion aux autres services
+* Paramètres métier
+
+### 🔹 `restaurant-service.properties`
+
+Configuration du service **restaurant-service** :
+
+* Paramètres REST
+* Accès aux données
+
+### 🔹 `commande-livraison-service.properties`
+
+Configuration du service **commande-livraison-service** :
+
+* Gestion des commandes
+* Gestion des livraisons
+
+---
+
+## 🔐 Bonnes Pratiques
+
+* ❌ Ne pas stocker de mots de passe sensibles en clair
+* ✔️ Utiliser des variables d’environnement si nécessaire
+* ✔️ Séparer les configurations par service
+* ✔️ Centraliser les paramètres communs dans `application.properties`
+
+---
+
+## ▶️ Utilisation avec Spring Cloud Config
+
+1. Lancer le **Config Server**
+2. Le Config Server pointe vers ce dépôt Git
+3. Chaque microservice récupère sa configuration automatiquement
+
+Exemple (dans `bootstrap.properties`) :
+
 ```properties
-mes-config-ms.commandes-last=10
+spring.application.name=restaurant-service
+spring.config.import=optional:configserver:http://localhost:8888
 ```
 
-Cette variable définit le nombre de jours pour afficher les dernières commandes.
+---
+
+## 🎯 Objectifs Pédagogiques
+
+* Comprendre la configuration centralisée
+* Appliquer Spring Cloud Config
+* Simplifier la gestion des microservices
+* Améliorer la maintenabilité du projet
+
+---
+
+## 👨‍💻 Auteur
+
+* **ElMahdi Chakouch**
+* **Younes Sadoq**
+* **Hamza Benaghmouch**
+---
+
+## 📄 Licence
+
+Projet à usage **éducatif**.
+
+---
+
+⭐ *Ce dépôt complète le projet delivery-platform.*
