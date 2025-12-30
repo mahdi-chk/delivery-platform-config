@@ -124,7 +124,7 @@ spring.config.import=optional:configserver:http://localhost:8888
 
 * **ElMahdi Chakouch**
 * **Younes Sadoq**
-* **Hamza Benaghmouch**
+* **Yahya Benmadane**
 ---
 
 ## 📄 Licence
